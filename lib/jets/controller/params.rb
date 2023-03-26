@@ -62,6 +62,9 @@ class Jets::Controller
       body = event['isBase64Encoded'] ? base64_decode(event["body"]) : event["body"]
       return {} if body.nil?
 
+      parsed_array = convert_array_to_hash(parse_json(body))
+      return parsed_array if parsed_array
+
       parsed_json = parse_json(body)
       return parsed_json if parsed_json
 
@@ -112,6 +115,11 @@ class Jets::Controller
 
     def parameter_filter
       @parameter_filter ||= ParametersFilter.new Jets.config.controllers.filtered_parameters
+    end
+
+    def convert_array_to_hash(body)
+      return nil if body.nil? || body.is_a?(Hash)
+      Hash[body.map {|key, value| [key, value]}]
     end
   end
 end
