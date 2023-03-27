@@ -37,7 +37,7 @@ module Jets::SpecHelpers::Controllers
           body = params.body_params
           json['headers']['Content-Length'] ||= body.length.to_s
         else
-          body = Rack::Multipart.build_multipart(params.body_params)
+          body = Rack::Multipart.build_multipart(convert_array_to_hash(params.body_params))
 
           if body
             json['headers']['Content-Length'] ||= body.length.to_s
@@ -96,6 +96,11 @@ module Jets::SpecHelpers::Controllers
 
     def escape_path(path)
       path.to_s.split('/').map { |s| s =~ /\A[:\*]/ ? s : CGI.escape(s) }.join('/')
+    end
+
+    def convert_array_to_hash(body)
+      return body if body.nil? || body.is_a?(Hash)
+      Hash[body.map {|key, value| [key, value]}]
     end
   end
 end
