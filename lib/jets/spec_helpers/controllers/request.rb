@@ -43,7 +43,7 @@ module Jets::SpecHelpers::Controllers
             json['headers']['Content-Length'] ||= body.length.to_s
             json['headers']['Content-Type'] = "multipart/form-data; boundary=#{Rack::Multipart::MULTIPART_BOUNDARY}"
           else
-            body = Rack::Utils.build_nested_query(params.body_params)
+            body = Rack::Utils.build_nested_query(convert_array_to_hash(params.body_params))
           end
         end
 
@@ -100,7 +100,10 @@ module Jets::SpecHelpers::Controllers
 
     def convert_array_to_hash(body)
       return body if body.nil? || body.is_a?(Hash)
-      Hash[body.map {|key, value| [key, value]}]
+      # Hash[body.map {|key, value| [key, value]}]
+      res = {}
+      res[:key] = body
+      res
     end
   end
 end
