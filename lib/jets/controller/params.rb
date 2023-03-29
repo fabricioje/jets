@@ -121,7 +121,8 @@ class Jets::Controller
       return nil if body.nil? || body.is_a?(Hash)
       # hash = Hash[body.map {|key, value| [key, value]}]
       res = {}
-      res[:key] = body
+      res['key'] = body
+      res
     end
   end
 end
