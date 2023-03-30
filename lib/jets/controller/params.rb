@@ -119,10 +119,9 @@ class Jets::Controller
 
     def convert_array_to_hash(body)
       return nil if body.nil? || body.is_a?(Hash)
-      # hash = Hash[body.map {|key, value| [key, value]}]
-      res = {}
-      res['key'] = body
-      res
+      array = {}
+      array['body_array'] = body
+      array
     end
   end
 end

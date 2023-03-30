@@ -100,10 +100,9 @@ module Jets::SpecHelpers::Controllers
 
     def convert_array_to_hash(body)
       return body if body.nil? || body.is_a?(Hash)
-      # Hash[body.map {|key, value| [key, value]}]
-      res = {}
-      res[:key] = body
-      res
+      array = {}
+      array['body_array'] = body
+      array
     end
   end
 end
